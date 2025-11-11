@@ -1,3 +1,7 @@
+import java.util.LinkedHashMap;
+import java.util.SequencedMap;
+import java.util.concurrent.Executors;
+
 /**
  * @author Hamid Khatami(khatami@caspco.ir)
  * @version 1.0 2025.1104
@@ -9,5 +13,44 @@ public class HelloJ25 {
 
   public static void main(String[] args) {
     System.out.println("Hello World");
+    System.out.println("-------------------------------------------------------");
+    System.out.println("---------------------Point object----------------------");
+
+    Point p= new Point(1,2);
+    printShape(p);
+    System.out.println("-------------------------------------------------------");
+    System.out.println("---------------------------Circle----------------------");
+    Point pCircle= new Point(30,40);
+    Circle c=new  Circle(pCircle,50);
+    printShape(c);
+    System.out.println("---------------------------Threads----------------------");
+    try(var executor = Executors.newVirtualThreadPerTaskExecutor())
+    {
+        for (int i=0;i<=1_000;i++){
+          int task=i;
+          executor.submit(()->{System.out.println("Task"+task);});
+        }
+    }
+
+    System.out.println("---------------------------SequencedMap----------------------");
+    SequencedMap<String,Integer> map=new LinkedHashMap<>();
+    map.put("A",1);
+    map.put("B",2);
+    System.out.println("First map: "+map.firstEntry());
+    System.out.println("Last map: "+map.lastEntry());
+
   }
+  record Point(int x, int y) {}
+  record Circle(Point center, int radius) {}
+
+  static void printShape(Object shape) {
+    switch (shape) {
+      case Point(int x, int y) -> System.out.println("Point: " + x + ", " + y);
+      case Circle(Point(int x, int y), int r) -> System.out.println("Circle at " + x + "," + y + " r=" + r);
+      default -> System.out.println("Unknown");
+    }
+  }
+
+
+
 }
