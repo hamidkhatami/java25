@@ -168,8 +168,16 @@ public final class StreamLearn {
         Stream.of(100, 200),
         Stream.of(50, 50)
                                               );
-    var flat=nested
-        .flatMap(s->s).toList();
+    var flat = nested
+        .flatMap(s -> s).toList();
     System.out.println(flat);
+
+    System.out.println("--------------------------------String template-----------------------------");
+    String nameStTmp = "Hamid";
+    int age =30;
+    String fulltext=STR."My name is {nameStTmp}, age {age}";
+    System.out.println(fulltext);
+
+
   }
 }
